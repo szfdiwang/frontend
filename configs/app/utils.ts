@@ -40,8 +40,9 @@ export const buildExternalAssetFilePath = (name: string, value: string) => {
   try {
     const fileName = name.replace(/^NEXT_PUBLIC_/, '').replace(/_URL$/, '').toLowerCase();
     const url = new URL(value);
-    const fileExtension = url.pathname.match(regexp.FILE_EXTENSION)?.[1];
-    return `/assets/${ fileName }.${ fileExtension }`;
+    const fileExtension = url.pathname.match(regexp.FILE_EXTENSION) ? url.pathname.match(regexp.FILE_EXTENSION)?.[1] : 'jpg';
+    const res = `/assets/${ fileName }.${ fileExtension }`;
+    return res;
   } catch (error) {
     return;
   }

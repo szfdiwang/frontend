@@ -1,24 +1,27 @@
-import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, useDisclosure, IconButton } from '@chakra-ui/react';
+// import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, useDisclosure, IconButton } from '@chakra-ui/react';
+import { Drawer, DrawerOverlay, DrawerContent, DrawerBody, useDisclosure } from '@chakra-ui/react';
 import React from 'react';
 
-import useIsMobile from 'lib/hooks/useIsMobile';
-import AddressIdenticon from 'ui/shared/entities/address/AddressIdenticon';
-import IconSvg from 'ui/shared/IconSvg';
+// import useIsMobile from 'lib/hooks/useIsMobile';
+// import AddressIdenticon from 'ui/shared/entities/address/AddressIdenticon';
+// import IconSvg from 'ui/shared/IconSvg';
 import useWallet from 'ui/snippets/walletMenu/useWallet';
 import WalletMenuContent from 'ui/snippets/walletMenu/WalletMenuContent';
 
-import useMenuButtonColors from '../useMenuButtonColors';
-import WalletTooltip from './WalletTooltip';
+// import useMenuButtonColors from '../useMenuButtonColors';
+// import WalletTooltip from './WalletTooltip';
 
 const WalletMenuMobile = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isWalletConnected, address, connect, disconnect, isModalOpening, isModalOpen } = useWallet();
-  const { themedBackground, themedBorderColor, themedColor } = useMenuButtonColors();
-  const isMobile = useIsMobile();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
+  // const { isWalletConnected, address, connect, disconnect, isModalOpening, isModalOpen } = useWallet();
+  const { isWalletConnected, address, disconnect } = useWallet();
+  // const { themedBackground, themedBorderColor, themedColor } = useMenuButtonColors();
+  // const isMobile = useIsMobile();
 
   return (
     <>
-      <WalletTooltip isDisabled={ isWalletConnected || isMobile === undefined || !isMobile } isMobile>
+      { /* <WalletTooltip isDisabled={ isWalletConnected || isMobile === undefined || !isMobile } isMobile>
         <IconButton
           aria-label="wallet menu"
           icon={ isWalletConnected ?
@@ -35,7 +38,7 @@ const WalletMenuMobile = () => {
           onClick={ isWalletConnected ? onOpen : connect }
           isLoading={ isModalOpening || isModalOpen }
         />
-      </WalletTooltip>
+      </WalletTooltip> */ }
       { isWalletConnected && (
         <Drawer
           isOpen={ isOpen }

@@ -1,54 +1,52 @@
-// import type { ButtonProps } from '@chakra-ui/react';
-// import { Popover, PopoverContent, PopoverBody, PopoverTrigger, Button, Box, useBoolean } from '@chakra-ui/react';
-import { Popover, PopoverContent, PopoverBody, useBoolean } from '@chakra-ui/react';
+import type { ButtonProps } from '@chakra-ui/react';
+import { Popover, PopoverContent, PopoverBody, PopoverTrigger, Button, Box, useBoolean } from '@chakra-ui/react';
 import React from 'react';
 
-// import useIsMobile from 'lib/hooks/useIsMobile';
-// import AddressIdenticon from 'ui/shared/entities/address/AddressIdenticon';
-// import HashStringShorten from 'ui/shared/HashStringShorten';
+import useIsMobile from 'lib/hooks/useIsMobile';
+import AddressIdenticon from 'ui/shared/entities/address/AddressIdenticon';
+import HashStringShorten from 'ui/shared/HashStringShorten';
 import useWallet from 'ui/snippets/walletMenu/useWallet';
 import WalletMenuContent from 'ui/snippets/walletMenu/WalletMenuContent';
 
-// import useMenuButtonColors from '../useMenuButtonColors';
-// import WalletTooltip from './WalletTooltip';
+import useMenuButtonColors from '../useMenuButtonColors';
+import WalletTooltip from './WalletTooltip';
 
 type Props = {
   isHomePage?: boolean;
 };
 
-const WalletMenuDesktop = ({ }: Props) => {
-  // const { isWalletConnected, address, connect, disconnect, isModalOpening, isModalOpen } = useWallet();
-  const { isWalletConnected, address, disconnect } = useWallet();
-  // const { themedBackground, themedBorderColor, themedColor } = useMenuButtonColors();
+const WalletMenuDesktop = ({ isHomePage }: Props) => {
+  const { isWalletConnected, address, connect, disconnect, isModalOpening, isModalOpen } = useWallet();
+  const { themedBackground, themedBorderColor, themedColor } = useMenuButtonColors();
   const [ isPopoverOpen, setIsPopoverOpen ] = useBoolean(false);
-  // const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
 
-  // const variant = React.useMemo(() => {
-  //   if (isWalletConnected) {
-  //     return 'subtle';
-  //   }
-  //   return isHomePage ? 'solid' : 'outline';
-  // }, [ isWalletConnected, isHomePage ]);
+  const variant = React.useMemo(() => {
+    if (isWalletConnected) {
+      return 'subtle';
+    }
+    return isHomePage ? 'solid' : 'outline';
+  }, [ isWalletConnected, isHomePage ]);
 
-  // let buttonStyles: Partial<ButtonProps> = {};
-  // if (isWalletConnected) {
-  //   buttonStyles = {
-  //     bg: isHomePage ? 'blue.50' : themedBackground,
-  //     color: isHomePage ? 'blackAlpha.800' : themedColor,
-  //     _hover: {
-  //       color: isHomePage ? 'blackAlpha.800' : themedColor,
-  //     },
-  //   };
-  // } else if (isHomePage) {
-  //   buttonStyles = {
-  //     color: 'white',
-  //   };
-  // } else {
-  //   buttonStyles = {
-  //     borderColor: themedBorderColor,
-  //     color: themedColor,
-  //   };
-  // }
+  let buttonStyles: Partial<ButtonProps> = {};
+  if (isWalletConnected) {
+    buttonStyles = {
+      bg: isHomePage ? 'blue.50' : themedBackground,
+      color: isHomePage ? 'blackAlpha.800' : themedColor,
+      _hover: {
+        color: isHomePage ? 'blackAlpha.800' : themedColor,
+      },
+    };
+  } else if (isHomePage) {
+    buttonStyles = {
+      color: 'white',
+    };
+  } else {
+    buttonStyles = {
+      borderColor: themedBorderColor,
+      color: themedColor,
+    };
+  }
 
   return (
     <Popover
@@ -59,7 +57,7 @@ const WalletMenuDesktop = ({ }: Props) => {
       isOpen={ isPopoverOpen }
       onClose={ setIsPopoverOpen.off }
     >
-      { /* <WalletTooltip isDisabled={ isWalletConnected || isMobile === undefined || isMobile }>
+      <WalletTooltip isDisabled={ isWalletConnected || isMobile === undefined || isMobile }>
         <Box ml={ 2 }>
           <PopoverTrigger>
             <Button
@@ -83,7 +81,7 @@ const WalletMenuDesktop = ({ }: Props) => {
             </Button>
           </PopoverTrigger>
         </Box>
-      </WalletTooltip> */ }
+      </WalletTooltip>
       { isWalletConnected && (
         <PopoverContent w="235px">
           <PopoverBody padding="24px 16px 16px 16px">

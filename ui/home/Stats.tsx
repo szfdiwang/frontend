@@ -8,16 +8,20 @@ import config from 'configs/app';
 import useApiQuery from 'lib/api/useApiQuery';
 import { WEI } from 'lib/consts';
 import { HOMEPAGE_STATS } from 'stubs/stats';
-import GasInfoTooltipContent from 'ui/shared/GasInfoTooltipContent/GasInfoTooltipContent';
+import GasInfoTooltip from 'ui/shared/gas/GasInfoTooltip';
+import GasPrice from 'ui/shared/gas/GasPrice';
+import IconSvg from 'ui/shared/IconSvg';
 
 import StatsItem from './StatsItem';
 
-const hasGasTracker = config.UI.homepage.showGasTracker;
+const hasGasTracker = config.features.gasTracker.isEnabled;
 const hasAvgBlockTime = config.UI.homepage.showAvgBlockTime;
+const rollupFeature = config.features.rollup;
 
 const Stats = () => {
-  const { data, isPlaceholderData, isError } = useApiQuery('homepage_stats', {
+  const { data, isPlaceholderData, isError, dataUpdatedAt } = useApiQuery('stats', {
     queryOptions: {
+      refetchOnMount: false,
       placeholderData: HOMEPAGE_STATS,
     },
   });
@@ -25,7 +29,7 @@ const Stats = () => {
   const zkEvmLatestBatchQuery = useApiQuery('homepage_zkevm_latest_batch', {
     queryOptions: {
       placeholderData: 12345,
-      enabled: config.features.zkEvmRollup.isEnabled,
+      enabled: rollupFeature.isEnabled && rollupFeature.type === 'zkEvm',
     },
   });
 
@@ -45,16 +49,30 @@ const Stats = () => {
     !data.gas_prices && itemsCount--;
     data.rootstock_locked_btc && itemsCount++;
     const isOdd = Boolean(itemsCount % 2);
-    const gasLabel = hasGasTracker && data.gas_prices ? <GasInfoTooltipContent gasPrices={ data.gas_prices }/> : null;
+    const gasInfoTooltip = hasGasTracker && data.gas_prices ? (
+      <GasInfoTooltip data={ data } dataUpdatedAt={ dataUpdatedAt }>
+        <IconSvg
+          isLoading={ isPlaceholderData }
+          name="info"
+          boxSize={ 5 }
+          display="block"
+          cursor="pointer"
+          _hover={{ color: 'link_hovered' }}
+          position="absolute"
+          top={{ base: 'calc(50% - 12px)', lg: '10px', xl: 'calc(50% - 12px)' }}
+          right="10px"
+        />
+      </GasInfoTooltip>
+    ) : null;
 
     content = (
       <>
-        { config.features.zkEvmRollup.isEnabled ? (
+        { rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? (
           <StatsItem
             icon="txn_batches"
             title="Latest batch"
             value={ (zkEvmLatestBatchQuery.data || 0).toLocaleString() }
-            url={ route({ pathname: '/zkevm-l2-txn-batches' }) }
+            url={ route({ pathname: '/batches' }) }
             isLoading={ zkEvmLatestBatchQuery.isPlaceholderData }
           />
         ) : (
@@ -92,9 +110,9 @@ const Stats = () => {
           <StatsItem
             icon="gas"
             title="Gas tracker"
-            value={ `${ Number(data.gas_prices.average).toLocaleString() } Gwei` }
+            value={ <GasPrice data={ data.gas_prices.average }/> }
             _last={ isOdd ? lastItemTouchStyle : undefined }
-            tooltipLabel={ gasLabel }
+            tooltip={ gasInfoTooltip }
             isLoading={ isPlaceholderData }
           />
         ) }

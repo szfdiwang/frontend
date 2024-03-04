@@ -84,6 +84,10 @@ const SolidityscanReport = ({ className, hash }: Props) => {
   const yetAnotherGrayColor = useColorModeValue('gray.400', 'gray.500');
   const popoverBgColor = useColorModeValue('white', 'gray.900');
 
+  const greatScoreColor = useColorModeValue('green.600', 'green.400');
+  const averageScoreColor = useColorModeValue('purple.600', 'purple.400');
+  const lowScoreColor = useColorModeValue('red.600', 'red.400');
+
   if (isError || !score) {
     return null;
   }
@@ -91,13 +95,13 @@ const SolidityscanReport = ({ className, hash }: Props) => {
   let scoreColor;
   let scoreLevel;
   if (score >= 80) {
-    scoreColor = 'green.600';
+    scoreColor = greatScoreColor;
     scoreLevel = 'GREAT';
   } else if (score >= 30) {
-    scoreColor = 'orange.600';
+    scoreColor = averageScoreColor;
     scoreLevel = 'AVERAGE';
   } else {
-    scoreColor = 'red.600';
+    scoreColor = lowScoreColor;
     scoreLevel = 'LOW';
   }
 
@@ -108,18 +112,17 @@ const SolidityscanReport = ({ className, hash }: Props) => {
   return (
     <Popover isOpen={ isOpen } onClose={ onClose } placement="bottom-start" isLazy>
       <PopoverTrigger>
-        <Skeleton isLoaded={ !isPlaceholderData }>
+        <Skeleton isLoaded={ !isPlaceholderData } borderRadius="base">
           <Button
             className={ className }
             color={ scoreColor }
-            borderColor={ scoreColor }
             size="sm"
             variant="outline"
             colorScheme="gray"
             onClick={ onToggle }
             aria-label="SolidityScan score"
             fontWeight={ 500 }
-            px={ 2 }
+            px="6px"
             h="32px"
             flexShrink={ 0 }
           >

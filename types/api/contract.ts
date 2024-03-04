@@ -1,6 +1,6 @@
-import type { Abi } from 'abitype';
+import type { Abi, AbiType } from 'abitype';
 
-export type SmartContractMethodArgType = 'address' | 'uint256' | 'bool' | 'string' | 'bytes' | 'bytes32' | 'bytes32[]';
+export type SmartContractMethodArgType = AbiType;
 export type SmartContractMethodStateMutability = 'view' | 'nonpayable' | 'payable';
 
 export interface SmartContract {
@@ -55,18 +55,17 @@ export interface SmartContractExternalLibrary {
 
 export interface SmartContractMethodBase {
   inputs: Array<SmartContractMethodInput>;
-  outputs: Array<SmartContractMethodOutput>;
+  outputs?: Array<SmartContractMethodOutput>;
   constant: boolean;
   name: string;
   stateMutability: SmartContractMethodStateMutability;
   type: 'function';
   payable: boolean;
   error?: string;
-}
-
-export interface SmartContractReadMethod extends SmartContractMethodBase {
   method_id: string;
 }
+
+export type SmartContractReadMethod = SmartContractMethodBase;
 
 export interface SmartContractWriteFallback {
   payable?: true;
@@ -85,9 +84,11 @@ export type SmartContractWriteMethod = SmartContractMethodBase | SmartContractWr
 export type SmartContractMethod = SmartContractReadMethod | SmartContractWriteMethod;
 
 export interface SmartContractMethodInput {
-  internalType?: SmartContractMethodArgType;
+  internalType?: string; // there could be any string, e.g "enum MyEnum"
   name: string;
   type: SmartContractMethodArgType;
+  components?: Array<SmartContractMethodInput>;
+  fieldType?: 'native_coin';
 }
 
 export interface SmartContractMethodOutput extends SmartContractMethodInput {
@@ -97,10 +98,10 @@ export interface SmartContractMethodOutput extends SmartContractMethodInput {
 export interface SmartContractQueryMethodReadSuccess {
   is_error: false;
   result: {
-    names: Array<string>;
+    names: Array<string | [ string, Array<string> ]>;
     output: Array<{
       type: string;
-      value: string;
+      value: string | Array<unknown>;
     }>;
   };
 }
@@ -177,4 +178,27 @@ export type SolidityscanReport = {
     };
     scanner_reference_url: string;
   };
+}
+
+type SmartContractSecurityAudit = {
+  audit_company_name: string;
+  audit_publish_date: string;
+  audit_report_url: string;
+}
+
+export type SmartContractSecurityAudits = {
+  items: Array<SmartContractSecurityAudit>;
+}
+
+export type SmartContractSecurityAuditSubmission = {
+  'address_hash': string;
+  'submitter_name': string;
+  'submitter_email': string;
+  'is_project_owner': boolean;
+  'project_name': string;
+  'project_url': string;
+  'audit_company_name': string;
+  'audit_report_url': string;
+  'audit_publish_date': string;
+  'comment'?: string;
 }

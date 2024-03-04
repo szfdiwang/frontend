@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 
 import appConfig from 'configs/app';
+import { RESOURCE_LOAD_ERROR_MESSAGE } from 'lib/errors/throwOnResourceLoadError';
 
 const feature = appConfig.features.sentry;
 
@@ -56,8 +57,12 @@ export const config: Sentry.BrowserOptions | undefined = (() => {
       'Script error.',
 
       // Relay and WalletConnect errors
+      'The quota has been exceeded',
       'Attempt to connect to relay via',
       'WebSocket connection failed for URL: wss://relay.walletconnect.com',
+
+      // API errors
+      RESOURCE_LOAD_ERROR_MESSAGE,
     ],
     denyUrls: [
       // Facebook flakiness
@@ -67,9 +72,11 @@ export const config: Sentry.BrowserOptions | undefined = (() => {
       // Woopra flakiness
       /eatdifferent\.com\.woopra-ns\.com/i,
       /static\.woopra\.com\/js\/woopra\.js/i,
-      // Chrome extensions
+      // Chrome and other extensions
       /extensions\//i,
       /^chrome:\/\//i,
+      /^chrome-extension:\/\//i,
+      /^moz-extension:\/\//i,
       // Other plugins
       /127\.0\.0\.1:4001\/isrunning/i, // Cacaoweb
       /webappstoolbarba\.texthelp\.com\//i,

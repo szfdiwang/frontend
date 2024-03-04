@@ -1,15 +1,14 @@
-import { Tr, Td, Grid, Skeleton, Box } from '@chakra-ui/react';
+import { Tr, Td, Flex, Skeleton, Box } from '@chakra-ui/react';
 import React from 'react';
 
 import type { TokenTransfer } from 'types/api/tokenTransfer';
 
 import getCurrencyValue from 'lib/getCurrencyValue';
 import useTimeAgoIncrement from 'lib/hooks/useTimeAgoIncrement';
+import AddressFromTo from 'ui/shared/address/AddressFromTo';
 import Tag from 'ui/shared/chakra/Tag';
-import AddressEntityWithTokenFilter from 'ui/shared/entities/address/AddressEntityWithTokenFilter';
 import NftEntity from 'ui/shared/entities/nft/NftEntity';
 import TxEntity from 'ui/shared/entities/tx/TxEntity';
-import IconSvg from 'ui/shared/IconSvg';
 
 type Props = TokenTransfer & { tokenId?: string; isLoading?: boolean }
 
@@ -36,12 +35,13 @@ const TokenTransferTableItem = ({
   return (
     <Tr alignItems="top">
       <Td>
-        <Grid alignItems="center" gridTemplateColumns="auto 130px" width="fit-content" py="7px">
+        <Flex alignItems="center" py="7px">
           <TxEntity
             hash={ txHash }
             isLoading={ isLoading }
             fontWeight={ 600 }
             noIcon
+            truncation="constant_long"
           />
           { timestamp && (
             <Skeleton isLoaded={ !isLoading } display="inline-block" color="gray.500" fontWeight="400" ml="10px">
@@ -50,7 +50,7 @@ const TokenTransferTableItem = ({
               </span>
             </Skeleton>
           ) }
-        </Grid>
+        </Flex>
       </Td>
       <Td>
         { method ? (
@@ -60,29 +60,18 @@ const TokenTransferTableItem = ({
         ) : null }
       </Td>
       <Td>
-        <AddressEntityWithTokenFilter
-          address={ from }
+        <AddressFromTo
+          from={ from }
+          to={ to }
           isLoading={ isLoading }
-          truncation="constant"
+          mt="5px"
+          mode={{ lg: 'compact', xl: 'long' }}
           tokenHash={ token.address }
-          my="5px"
-        />
-      </Td>
-      <Td px={ 0 }>
-        <IconSvg name="arrows/east" boxSize={ 6 } color="gray.500" mt="3px" isLoading={ isLoading }/>
-      </Td>
-      <Td>
-        <AddressEntityWithTokenFilter
-          address={ to }
-          isLoading={ isLoading }
-          truncation="constant"
-          tokenHash={ token.address }
-          my="5px"
         />
       </Td>
       { (token.type === 'ERC-721' || token.type === 'ERC-1155') && (
         <Td>
-          { 'token_id' in total ? (
+          { 'token_id' in total && total.token_id !== null ? (
             <NftEntity
               hash={ token.address }
               id={ total.token_id }

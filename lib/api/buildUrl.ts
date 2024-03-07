@@ -13,6 +13,7 @@ export default function buildUrl<R extends ResourceName>(
 ): string {
   const resource: ApiResource = RESOURCES[resourceName];
   const baseUrl = isNeedProxy() ? config.app.baseUrl : (resource.endpoint || config.api.endpoint);
+  // 路径的资源是否存在basePath，如果不存在则使用api的basePath
   const basePath = resource.basePath !== undefined ? resource.basePath : config.api.basePath;
   const path = isNeedProxy() ? '/node-api/proxy' + basePath + resource.path : basePath + resource.path;
   const url = new URL(compile(path)(pathParams), baseUrl);

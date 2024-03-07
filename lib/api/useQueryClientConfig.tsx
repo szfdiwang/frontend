@@ -1,4 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
+// @tanstack/react-query 缓存请求工具 请求 => 数据缓存是否有数据 => 有数据返回数据 => 没有数据请求数据 => 缓存数据 => 返回数据
 import React from 'react';
 
 import getErrorObjPayload from 'lib/errors/getErrorObjPayload';

@@ -8,6 +8,13 @@
 
 ## Running and configuring the app
 
+###### 本地开发
+```sh
+run dev:me 
+```
+> 应用 .env.local .env.secrets 两个文件
+
+
 App is distributed as a docker image. Here you can find information about the [package](https://github.com/blockscout/frontend/pkgs/container/frontend) and its recent [releases](https://github.com/blockscout/frontend/releases).
 
 You can configure your app by passing necessary environment variables when starting the container. See full list of ENVs and their description [here](./docs/ENVS.md).

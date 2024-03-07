@@ -37,6 +37,7 @@ const PageNextJs = (props: Props) => {
         <meta name="twitter:card" content="summary_large_image"/>
         <meta property="twitter:image" content={ opengraph.imageUrl }/>
         <meta property="og:type" content="website"/>
+        { /* 给每个页面增加meta元素 */ }
       </Head>
       { props.children }
     </>

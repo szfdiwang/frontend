@@ -26,8 +26,8 @@ declare module "nextjs-routes" {
     | StaticRoute<"/auth/auth0">
     | StaticRoute<"/auth/profile">
     | StaticRoute<"/auth/unverified-email">
-    | DynamicRoute<"/batches/[number]", { "number": string }>
     | StaticRoute<"/batches">
+    | DynamicRoute<"/batches/[number]", { "number": string }>
     | DynamicRoute<"/block/[height_or_hash]", { "height_or_hash": string }>
     | StaticRoute<"/blocks">
     | StaticRoute<"/contract-verification">
@@ -37,8 +37,8 @@ declare module "nextjs-routes" {
     | StaticRoute<"/graphiql">
     | StaticRoute<"/">
     | StaticRoute<"/login">
-    | DynamicRoute<"/name-domains/[name]", { "name": string }>
     | StaticRoute<"/name-domains">
+    | DynamicRoute<"/name-domains/[name]", { "name": string }>
     | DynamicRoute<"/op/[hash]", { "hash": string }>
     | StaticRoute<"/ops">
     | StaticRoute<"/output-roots">

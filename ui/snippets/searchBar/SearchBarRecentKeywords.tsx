@@ -53,6 +53,7 @@ const SearchBarSuggest = ({ onClick, onClear }: Props) => {
         <Link onClick={ clearKeywords }>Clear all</Link>
       </Flex>
       { keywords.map(kw => (
+      // 需要加入一个单独删除的X按钮
         <Flex
           key={ kw }
           py={ 3 }

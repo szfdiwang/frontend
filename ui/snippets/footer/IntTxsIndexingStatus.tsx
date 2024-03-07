@@ -22,7 +22,6 @@ const IntTxsIndexingStatus = () => {
 
   const handleInternalTxsIndexStatus: SocketMessage.InternalTxsIndexStatus['handler'] = React.useCallback((payload) => {
     queryClient.setQueryData(getResourceKey('homepage_indexing_status'), (prevData: IndexingStatus | undefined) => {
-
       const newData = prevData ? { ...prevData } : {} as IndexingStatus;
       newData.finished_indexing = payload.finished;
       newData.indexed_internal_transactions_ratio = payload.ratio;

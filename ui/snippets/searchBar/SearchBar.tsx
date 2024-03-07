@@ -143,9 +143,11 @@ const SearchBar = ({ isHomepage }: Props) => {
               as={ Element }
               px={ 4 }
             >
+              { /* 没有输入内容 且 recentSearchKeywords 最近有搜索记录时  需求新增一个单独删除的按钮*/ }
               { searchTerm.trim().length === 0 && recentSearchKeywords.length > 0 && (
                 <SearchBarRecentKeywords onClick={ handleSearchTermChange } onClear={ onClose }/>
               ) }
+              { /* 当输入了内容后 出现内容建议 */ }
               { searchTerm.trim().length > 0 && (
                 <SearchBarSuggest
                   query={ query }

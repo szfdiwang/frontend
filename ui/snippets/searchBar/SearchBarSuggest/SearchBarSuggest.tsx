@@ -115,6 +115,7 @@ const SearchBarSuggest = ({ query, searchTerm, onItemClick, containerId }: Props
 
     if (resultCategories.length === 0) {
       return <Text>No results found.</Text>;
+      //查询建议
     }
 
     return (

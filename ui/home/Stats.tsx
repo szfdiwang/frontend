@@ -137,8 +137,8 @@ const Stats = () => {
       marginTop="24px"
     >
       { content }
+      { /* stat box  */ }
     </Grid>
-
   );
 };
 

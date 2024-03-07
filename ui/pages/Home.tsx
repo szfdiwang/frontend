@@ -42,12 +42,15 @@ const Home = () => {
         </Flex>
         <SearchBar isHomepage/>
       </Box>
+      { /* 链信息数据box */ }
       <Stats/>
+      { /* 链charts */ }
       <ChainIndicators/>
       <AdBanner mt={{ base: 6, lg: 8 }} mx="auto" display="flex" justifyContent="center"/>
       <Flex mt={ 8 } direction={{ base: 'column', lg: 'row' }} columnGap={ 12 } rowGap={ 8 }>
         { rollupFeature.isEnabled && rollupFeature.type === 'zkEvm' ? <LatestZkEvmL2Batches/> : <LatestBlocks/> }
         <Box flexGrow={ 1 }>
+          { /* 交易数据的列表 */ }
           <Transactions/>
         </Box>
       </Flex>

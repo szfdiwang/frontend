@@ -64,13 +64,16 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <QueryClientProvider client={ queryClient }>
               <GrowthBookProvider growthbook={ growthBook }>
                 <ScrollDirectionProvider>
+                  { /* 获取此时鼠标滚轴方向 */ }
                   <SocketProvider url={ `${ config.api.socket }${ config.api.basePath }/socket/v2` }>
                     { getLayout(<Component { ...pageProps }/>) }
                   </SocketProvider>
                 </ScrollDirectionProvider>
+                { /* 数据分析 */ }
               </GrowthBookProvider>
               <ReactQueryDevtools buttonPosition="bottom-left" position="left"/>
               <GoogleAnalytics/>
+              { /* GoogleAnalytics */ }
             </QueryClientProvider>
           </AppContextProvider>
         </Web3ModalProvider>
